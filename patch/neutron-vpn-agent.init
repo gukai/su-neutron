@@ -17,6 +17,7 @@ configs=(
     "/etc/$proj/$proj.conf" \
     "/etc/$proj/vpn_agent.ini" \
     "/etc/$proj/l3_agent.ini" \
+    "/etc/$proj/fwaas_driver.ini" \
 )
 pidfile="/var/run/$proj/$prog.pid"
 
