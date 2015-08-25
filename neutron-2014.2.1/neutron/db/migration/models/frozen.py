@@ -282,6 +282,22 @@ class ExtraDhcpOpt(BASEV2, HasId):
         Port,
         backref=orm.backref("dhcp_opts", lazy='joined', cascade='delete'))
 
+#neutron/db/portbandwidth_db.py
+class PortBandwidth(model_base.BASEV2):
+    port_id = sa.Column(sa.String(36),
+                        sa.ForeignKey('ports.id', ondelete="CASCADE"),
+                        primary_key=True)
+    uplink = sa.Column(sa.BigInteger, nullable=True)
+    downlink = sa.Column(sa.BigInteger, nullable=True)
+
+
+    # Add a relationship to the Port model in order to be to able to
+    # instruct SQLAlchemy to eagerly load port security binding
+    port = orm.relationship(
+        models_v2.Port,
+        backref=orm.backref("port_bandwidth", uselist=False,
+                            cascade='delete', lazy='joined'))
+
 
 #neutron/db/l3_db.py
 class Router(BASEV2, HasId, HasTenant):

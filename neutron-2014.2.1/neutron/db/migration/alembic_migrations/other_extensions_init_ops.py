@@ -58,6 +58,14 @@ def upgrade():
         sa.PrimaryKeyConstraint('port_id'))
 
     op.create_table(
+        'portbandwidths',
+        sa.Column('port_id', sa.String(length=36), nullable=False),
+        sa.Column('uplink', sa.BigInteger, nullable=True),
+        sa.Column('downlink', sa.BigInteger, nullable=True),
+        sa.ForeignKeyConstraint(['port_id'], ['ports.id'], ondelete='CASCADE'),
+            sa.PrimaryKeyConstraint('port_id'))
+
+    op.create_table(
         'extradhcpopts',
         sa.Column('id', sa.String(length=36), nullable=False),
         sa.Column('port_id', sa.String(length=36), nullable=False),
@@ -88,6 +96,7 @@ def downgrade():
     op.drop_table('servicerouterbindings')
     op.drop_table('routerservicetypebindings')
     op.drop_table('extradhcpopts')
+    op.drop_table('portbandwidths')
     op.drop_table('portbindingports')
     op.drop_table('allowedaddresspairs')
     op.drop_table('quotas')
